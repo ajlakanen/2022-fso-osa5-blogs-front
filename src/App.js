@@ -268,13 +268,12 @@ const App = () => {
     <div>
       <h1>Blogs</h1>
       <Notification message={notification.message} style={notification.style} />
-      {user === null ? (
-        loginForm()
-      ) : (
-        <div>
-          {loginInfo()} {blogForm()} {blogList()}
-        </div>
-      )}
+      <div>
+        {user === null && loginForm()}
+        {user !== null && loginInfo()}
+        {user !== null && blogForm()}
+        {user !== null && blogList()}
+      </div>
     </div>
   );
 };
