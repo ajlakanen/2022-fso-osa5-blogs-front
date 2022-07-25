@@ -27,6 +27,15 @@ const App = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      blogService.setToken(user.token);
+    }
+  }, []);
+
   const modifyPhoneNumber = (person, newNumber) => {
     const changedPerson = { ...person, number: newNumber };
     blogService
@@ -158,11 +167,17 @@ const App = () => {
         username,
         password,
       });
-      console.log(user);
+
+      window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
+
       blogService.setToken(user.token);
       setUser(user);
       setUsername("");
       setPassword("");
+      showNotification({
+        message: `${user.username} logged in`,
+        style: "success",
+      });
     } catch (exception) {
       showNotification({ message: "wrong credentials", style: "error" });
     }
@@ -194,6 +209,59 @@ const App = () => {
     );
   };
 
+  const loginInfo = () => {
+    return (
+      <p>
+        {user.name} logged in.{" "}
+        <button
+          onClick={() => {
+            console.log("logout");
+            window.localStorage.removeItem("loggedBlogAppUser");
+            blogService.setToken(null);
+            setUser(null);
+            showNotification({
+              message: "Logged out.",
+              style: "info",
+            });
+          }}
+        >
+          Logout
+        </button>
+      </p>
+    );
+  };
+
+  const blogList = () => {
+    return (
+      <>
+        <h2>Blogs</h2>
+        <Filter
+          value={newFilter}
+          onChange={(event) => setNewFilter(event.target.value)}
+        />
+        <p>
+          {newFilter.length === 0 ? (
+            <></>
+          ) : blogsToShow.length === 0 ? (
+            <>No results</>
+          ) : (
+            <span>Filter in use</span>
+          )}
+        </p>
+        <ul>
+          {blogsToShow.map((blog) => (
+            <li key={blog.id}>
+              <Blog title={blog.title} author={blog.author} url={blog.url} />{" "}
+              <button onClick={() => handleDeleteClick({ person: blog })}>
+                delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      </>
+    );
+  };
+
   return (
     <div>
       <h1>Blogs</h1>
@@ -202,35 +270,9 @@ const App = () => {
         loginForm()
       ) : (
         <div>
-          <p>{user.name} logged in</p> {blogForm()}
+          {loginInfo()} {blogForm()} {blogList()}
         </div>
       )}
-
-      <h2>Blogs</h2>
-      <Filter
-        value={newFilter}
-        onChange={(event) => setNewFilter(event.target.value)}
-      />
-      {/* <Persons newFilter={newFilter} personsToShow={personsToShow} /> */}
-      <p>
-        {newFilter.length === 0 ? (
-          <></>
-        ) : blogsToShow.length === 0 ? (
-          <>No results</>
-        ) : (
-          <span>Filter in use</span>
-        )}
-      </p>
-      <ul>
-        {blogsToShow.map((blog) => (
-          <li key={blog.id}>
-            <Blog title={blog.title} author={blog.author} url={blog.url} />{" "}
-            <button onClick={() => handleDeleteClick({ person: blog })}>
-              delete
-            </button>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };
