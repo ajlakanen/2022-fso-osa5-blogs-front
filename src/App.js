@@ -153,7 +153,6 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    console.log("login");
     if (username.length === 0 || password.length === 0) {
       showNotification({
         message: "insert username and password",
@@ -179,7 +178,10 @@ const App = () => {
         style: "success",
       });
     } catch (exception) {
-      showNotification({ message: "wrong credentials", style: "error" });
+      showNotification({
+        message: "wrong username or password",
+        style: "error",
+      });
     }
   };
 
