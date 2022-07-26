@@ -12,12 +12,21 @@ export const LoginForm = ({
       <form onSubmit={handleSubmit}>
         <p>
           username:{" "}
-          <input type="text" value={username} onChange={handleUsernameChange} />
+          <input
+            type="text"
+            name="username"
+            aria-labelledby="username"
+            value={username}
+            onChange={handleUsernameChange}
+          />
         </p>
         <p>
           password{" "}
           <input
             type="password"
+            name="password"
+            aria-labelledby="password"
+            autoComplete="on"
             value={password}
             onChange={handlePasswordChange}
           />
