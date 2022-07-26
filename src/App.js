@@ -13,6 +13,7 @@ const App = () => {
   const [newAuthor, setNewAuthor] = useState("");
   const [newUrl, setNewUrl] = useState("");
   const [newFilter, setNewFilter] = useState("");
+  const [loginVisible, setLoginVisible] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -75,8 +76,15 @@ const App = () => {
 
   const addBlog = (event) => {
     event.preventDefault();
-    if (newTitle.length === 0 || newAuthor.length === 0) {
-      setNotification({ message: "Name or number missing", style: "error" });
+    if (
+      newTitle.length === 0 ||
+      newAuthor.length === 0 ||
+      newUrl.length === 0
+    ) {
+      setNotification({
+        message: "Title, author or url missing",
+        style: "error",
+      });
       return;
     }
 
@@ -130,6 +138,7 @@ const App = () => {
           blog.title.toLowerCase().includes(newFilter.toLowerCase())
         );
 
+  /* TODO */
   const handleDeleteClick = ({ person }) => {
     if (window.confirm(`Delete ${person.name}`)) {
       blogService
@@ -138,15 +147,10 @@ const App = () => {
           setBlogs(blogs.filter((p) => p.id !== person.id));
         })
         .then(() => {
-          setNotification({
+          showNotification({
             message: "Person deleted",
             style: "info",
           });
-        })
-        .then(() => {
-          setTimeout(() => {
-            setNotification({ message: null });
-          }, 5000);
         });
     }
   };
@@ -173,6 +177,7 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
+      setLoginVisible(false);
       showNotification({
         message: `${user.username} logged in`,
         style: "success",
@@ -185,16 +190,28 @@ const App = () => {
     }
   };
 
+  const handleCancel = (event) => {
+    event.preventDefault();
+    setLoginVisible(false);
+  };
+
   const loginForm = () => {
-    return (
-      <LoginForm
-        username={username}
-        handleUsernameChange={(event) => setUsername(event.target.value)}
-        password={password}
-        handlePasswordChange={(event) => setPassword(event.target.value)}
-        onLogin={handleLogin}
-      />
-    );
+    if (loginVisible) {
+      return (
+        <>
+          <LoginForm
+            username={username}
+            handleUsernameChange={(event) => setUsername(event.target.value)}
+            password={password}
+            handlePasswordChange={(event) => setPassword(event.target.value)}
+            handleSubmit={handleLogin}
+            handleCancel={handleCancel}
+          />
+        </>
+      );
+    } else {
+      return <button onClick={() => setLoginVisible(true)}>login</button>;
+    }
   };
 
   const blogForm = () => {
@@ -214,10 +231,9 @@ const App = () => {
   const loginInfo = () => {
     return (
       <p>
-        {user.name} logged in.{" "}
+        {user.name} ({user.username}) logged in.{" "}
         <button
           onClick={() => {
-            console.log("logout");
             window.localStorage.removeItem("loggedBlogAppUser");
             blogService.setToken(null);
             setUser(null);

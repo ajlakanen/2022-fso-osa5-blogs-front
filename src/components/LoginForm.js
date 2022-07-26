@@ -3,12 +3,13 @@ export const LoginForm = ({
   handleUsernameChange,
   password,
   handlePasswordChange,
-  onLogin,
+  handleSubmit,
+  handleCancel,
 }) => {
   return (
     <div>
       <h1>Login</h1>
-      <form onSubmit={onLogin}>
+      <form onSubmit={handleSubmit}>
         <p>
           username:{" "}
           <input type="text" value={username} onChange={handleUsernameChange} />
@@ -22,6 +23,7 @@ export const LoginForm = ({
           />
         </p>
         <button type="submit">login</button>
+        <button onClick={handleCancel}>cancel</button>
       </form>
     </div>
   );
