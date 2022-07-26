@@ -8,11 +8,14 @@ export const BlogForm = ({ onSubmit }) => {
   const createBlog = async (event) => {
     event.preventDefault();
     const result = await onSubmit({ newTitle, newAuthor, newUrl });
+    console.log(result);
     if (result) {
       console.log("added");
       setNewTitle("");
       setNewAuthor("");
       setNewUrl("");
+    } else {
+      console.log("not added");
     }
   };
 

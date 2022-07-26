@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { BlogForm } from "./components/BlogForm";
 import { Blog } from "./components/Blog";
 import { Filter } from "./components/Filter";
@@ -71,7 +71,7 @@ const App = () => {
       });
   };
 
-  const addBlog = ({ newTitle, newAuthor, newUrl }) => {
+  const addBlog = async ({ newTitle, newAuthor, newUrl }) => {
     if (
       newTitle.length === 0 ||
       newAuthor.length === 0 ||
@@ -81,7 +81,6 @@ const App = () => {
         message: "Title, author or url missing",
         style: "error",
       });
-      // EI TOIMI??
       return false;
     }
 
@@ -100,29 +99,21 @@ const App = () => {
       author: newAuthor,
       url: newUrl,
     };
-    blogService
-      .create(blogObject)
-      .then((returnedBlog) => {
-        setBlogs(blogs.concat(returnedBlog));
-        // Nämä siirrettiin BlogForm komponenttiin
-        // setNewTitle("");
-        // setNewAuthor("");
-        // setNewUrl("");
-        showNotification({ message: "New blog added", style: "success" });
-      })
-      .then(() => {
-        // EI TOIMI!
-        return true;
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.data.error.includes("validation failed")) {
-          showNotification({
-            message: `${error.response.data.error}`,
-            style: "error",
-          });
-        }
-      });
+
+    try {
+      const returnedBlog = await blogService.create(blogObject);
+      setBlogs(blogs.concat(returnedBlog));
+      showNotification({ message: "New blog added", style: "success" });
+      return true;
+    } catch (error) {
+      if (error.response.data.error.includes("validation failed")) {
+        showNotification({
+          message: `${error.response.data.error}`,
+          style: "error",
+        });
+      }
+      return false;
+    }
   };
 
   const showNotification = ({ message, style }) => {
@@ -202,16 +193,14 @@ const App = () => {
   const loginForm = () => {
     if (loginVisible) {
       return (
-        <>
-          <LoginForm
-            username={username}
-            handleUsernameChange={(event) => setUsername(event.target.value)}
-            password={password}
-            handlePasswordChange={(event) => setPassword(event.target.value)}
-            handleSubmit={handleLogin}
-            handleCancel={handleCancel}
-          />
-        </>
+        <LoginForm
+          username={username}
+          handleUsernameChange={(event) => setUsername(event.target.value)}
+          password={password}
+          handlePasswordChange={(event) => setPassword(event.target.value)}
+          handleSubmit={handleLogin}
+          handleCancel={handleCancel}
+        />
       );
     } else {
       return <button onClick={() => setLoginVisible(true)}>login</button>;
@@ -219,17 +208,7 @@ const App = () => {
   };
 
   const blogForm = () => {
-    return (
-      <BlogForm
-        onSubmit={addBlog}
-        //title={newTitle}
-        //handleTitleChange={(event) => setNewTitle(event.target.value)}
-        //author={newAuthor}
-        //handleAuthorChange={(event) => setNewAuthor(event.target.value)}
-        //url={newUrl}
-        //handleUrlChange={(event) => setNewUrl(event.target.value)}
-      />
-    );
+    return <BlogForm onSubmit={addBlog} />;
   };
 
   const loginInfo = () => {
