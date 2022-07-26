@@ -9,9 +9,6 @@ import loginService from "./services/login";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [newTitle, setNewTitle] = useState("");
-  const [newAuthor, setNewAuthor] = useState("");
-  const [newUrl, setNewUrl] = useState("");
   const [newFilter, setNewFilter] = useState("");
   const [loginVisible, setLoginVisible] = useState(false);
   const [username, setUsername] = useState("");
@@ -74,8 +71,7 @@ const App = () => {
       });
   };
 
-  const addBlog = (event) => {
-    event.preventDefault();
+  const addBlog = ({ newTitle, newAuthor, newUrl }) => {
     if (
       newTitle.length === 0 ||
       newAuthor.length === 0 ||
@@ -85,17 +81,20 @@ const App = () => {
         message: "Title, author or url missing",
         style: "error",
       });
-      return;
+      // EI TOIMI??
+      return false;
     }
 
-    const existing = blogs.filter((person) => person.name === newTitle);
-    if (existing.length > 0) {
-      if (window.confirm(`Replace ${newTitle} phone number?`)) {
-        modifyPhoneNumber(existing[0], newAuthor);
-        return;
-        // TODO: What happens when user presses cancel?
-      }
-    }
+    // TODO: MODIFICATION OF EXISTING BLOG
+    // const existing = blogs.filter((blog) => blog.name === newTitle);
+    // if (existing.length > 0) {
+    //   if (window.confirm(`Replace ${newTitle} phone number?`)) {
+    //     modifyPhoneNumber(existing[0], newAuthor);
+    //     return;
+    //     // TODO: What happens when user presses cancel?
+    //   }
+    // }
+
     const blogObject = {
       title: newTitle,
       author: newAuthor,
@@ -105,10 +104,15 @@ const App = () => {
       .create(blogObject)
       .then((returnedBlog) => {
         setBlogs(blogs.concat(returnedBlog));
-        setNewTitle("");
-        setNewAuthor("");
-        setNewUrl("");
+        // Nämä siirrettiin BlogForm komponenttiin
+        // setNewTitle("");
+        // setNewAuthor("");
+        // setNewUrl("");
         showNotification({ message: "New blog added", style: "success" });
+      })
+      .then(() => {
+        // EI TOIMI!
+        return true;
       })
       .catch((error) => {
         console.log(error);
@@ -218,12 +222,12 @@ const App = () => {
     return (
       <BlogForm
         onSubmit={addBlog}
-        title={newTitle}
-        handleTitleChange={(event) => setNewTitle(event.target.value)}
-        author={newAuthor}
-        handleAuthorChange={(event) => setNewAuthor(event.target.value)}
-        url={newUrl}
-        handleUrlChange={(event) => setNewUrl(event.target.value)}
+        //title={newTitle}
+        //handleTitleChange={(event) => setNewTitle(event.target.value)}
+        //author={newAuthor}
+        //handleAuthorChange={(event) => setNewAuthor(event.target.value)}
+        //url={newUrl}
+        //handleUrlChange={(event) => setNewUrl(event.target.value)}
       />
     );
   };
