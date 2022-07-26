@@ -208,7 +208,7 @@ const App = () => {
   };
 
   const blogForm = () => {
-    return <BlogForm onSubmit={addBlog} />;
+    return <BlogForm addBlog={addBlog} />;
   };
 
   const loginInfo = () => {
@@ -216,6 +216,8 @@ const App = () => {
       <p>
         {user.name} ({user.username}) logged in.{" "}
         <button
+          name="logout"
+          aria-labelledby="logout"
           onClick={() => {
             window.localStorage.removeItem("loggedBlogAppUser");
             blogService.setToken(null);

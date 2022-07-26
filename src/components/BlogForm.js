@@ -1,21 +1,17 @@
 import { useState } from "react";
 
-export const BlogForm = ({ onSubmit }) => {
+export const BlogForm = ({ addBlog }) => {
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newUrl, setNewUrl] = useState("");
 
-  const createBlog = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const result = await onSubmit({ newTitle, newAuthor, newUrl });
-    console.log(result);
-    if (result) {
-      console.log("added");
+    const success = await addBlog({ newTitle, newAuthor, newUrl });
+    if (success) {
       setNewTitle("");
       setNewAuthor("");
       setNewUrl("");
-    } else {
-      console.log("not added");
     }
   };
 
@@ -23,7 +19,7 @@ export const BlogForm = ({ onSubmit }) => {
     <>
       <h2>Add new blog</h2>
 
-      <form onSubmit={createBlog}>
+      <form onSubmit={handleSubmit}>
         <div>
           title:{" "}
           <input
@@ -46,7 +42,9 @@ export const BlogForm = ({ onSubmit }) => {
           />
         </div>
         <div>
-          <button type="submit">add</button>
+          <button name="add" aria-labelledby="add blog" type="submit">
+            add
+          </button>
         </div>
       </form>
     </>
