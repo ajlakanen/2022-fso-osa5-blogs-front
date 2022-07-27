@@ -121,6 +121,15 @@ const App = () => {
           style: "error",
         });
       }
+      if (error.response.data.error.includes("token expired")) {
+        showNotification({
+          message: "Login expired, please wait, logging out...",
+          style: "error",
+        });
+        setTimeout(() => {
+          setUser(null);
+        }, 5000);
+      }
       return false;
     }
   };
