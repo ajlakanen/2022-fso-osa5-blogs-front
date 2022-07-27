@@ -2,6 +2,7 @@ import { useState } from "react";
 
 export const Blog = ({ blog, handleLike }) => {
   const [viewAllInfo, setViewAllInfo] = useState(false);
+  const [likeStyle, setLikeStyle] = useState("likes");
 
   return (
     <div>
@@ -17,7 +18,10 @@ export const Blog = ({ blog, handleLike }) => {
       )}
       {viewAllInfo && (
         <button
-          onClick={() => setViewAllInfo(false)}
+          onClick={() => {
+            setViewAllInfo(false);
+            setLikeStyle("likes");
+          }}
           name="hide"
           aria-labelledby="hide"
         >
@@ -28,10 +32,18 @@ export const Blog = ({ blog, handleLike }) => {
       {viewAllInfo && <span>{blog.url}</span>}
       {viewAllInfo && (
         <span>
-          likes: {blog.likes}{" "}
+          likes: <span className={likeStyle}>{blog.likes}</span>{" "}
           <button
             onClick={() => {
               handleLike(blog);
+              if (likeStyle.includes("clicked")) {
+                setLikeStyle("likes");
+                setTimeout(() => {
+                  setLikeStyle("likes clicked");
+                }, 10);
+              } else {
+                setLikeStyle("likes clicked");
+              }
             }}
             name="like"
             aria-labelledby="like"
