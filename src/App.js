@@ -57,18 +57,30 @@ const App = () => {
             style: "error",
           });
         } else {
-          setNotification({
+          showNotification({
             message: `Person '${person.name}' was already deleted from server`,
             style: "error",
           });
           setBlogs(blogs.filter((p) => p.id !== person.id));
         }
-      })
-      .then(() => {
-        setTimeout(() => {
-          setNotification({ message: null });
-        }, 5000);
       });
+  };
+
+  const addLike = async (blog) => {
+    try {
+      const returnedBlog = await blogService.update(blog.id.toString(), {
+        ...blog,
+        likes: blog.likes + 1,
+      });
+      setBlogs(blogs.map((b) => (b.id !== blog.id ? b : returnedBlog)));
+      return true;
+    } catch (error) {
+      showNotification({
+        message: `${error.response.data.error}`,
+        style: "error",
+      });
+      return false;
+    }
   };
 
   const addBlog = async ({ newTitle, newAuthor, newUrl }) => {
@@ -259,7 +271,7 @@ const App = () => {
         <ul className="bloglist">
           {blogsToShow.map((blog) => (
             <li key={blog.id} className="blog">
-              <Blog blog={blog} handleLike={handleLike} />{" "}
+              <Blog blog={blog} handleLike={addLike} />{" "}
               <button onClick={() => handleDeleteClick({ person: blog })}>
                 delete
               </button>
