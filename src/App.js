@@ -68,10 +68,6 @@ const App = () => {
 
   const addLike = async (blog) => {
     try {
-      // const returnedBlog = await blogService.update(blog.id.toString(), {
-      //   ...blog,
-      //   likes: blog.likes + 1,
-      // });
       const returnedBlog = await blogService.like(blog.id.toString());
       setBlogs(blogs.map((b) => (b.id !== blog.id ? b : returnedBlog)));
       return true;
