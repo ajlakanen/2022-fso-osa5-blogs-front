@@ -23,6 +23,11 @@ const create = async (newObject) => {
   return response.data;
 };
 
+const like = async (id) => {
+  const response = await axios.post(`${baseUrl}/${id}/like`);
+  return response.data;
+};
+
 const update = async (id, newObject) => {
   const response = await axios.put(`${baseUrl}/${id}`, newObject);
   return response.data;
@@ -36,6 +41,7 @@ const deletePerson = (id) => {
 export default {
   getAll,
   create,
+  like,
   update,
   deletePerson,
   setToken,
