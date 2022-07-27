@@ -20,8 +20,8 @@ const App = () => {
   });
 
   useEffect(() => {
-    blogService.getAll().then((initialPersons) => {
-      setBlogs(initialPersons);
+    blogService.getAll().then((initialBlogs) => {
+      setBlogs(initialBlogs);
     });
   }, []);
 
@@ -234,6 +234,11 @@ const App = () => {
     );
   };
 
+  const handleLike = (blog) => {
+    console.log(blog);
+    console.log({ ...blog, likes: blog.likes + 1 });
+  };
+
   const blogList = () => {
     return (
       <>
@@ -251,10 +256,10 @@ const App = () => {
             <span>Filter in use</span>
           )}
         </p>
-        <ul>
+        <ul className="bloglist">
           {blogsToShow.map((blog) => (
-            <li key={blog.id}>
-              <Blog title={blog.title} author={blog.author} url={blog.url} />{" "}
+            <li key={blog.id} className="blog">
+              <Blog blog={blog} handleLike={handleLike} />{" "}
               <button onClick={() => handleDeleteClick({ person: blog })}>
                 delete
               </button>

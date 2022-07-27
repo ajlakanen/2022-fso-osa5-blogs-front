@@ -31,3 +31,20 @@ h1 {
   padding: 10px;
   margin-bottom: 10px;
 }
+
+.bloglist {
+  padding-left: 0px;
+}
+
+.blog {
+  padding-top: 10px;
+  padding-left: 2px;
+  border: solid 2px darkgray;
+  border-radius: 3px;
+  list-style-type: none;
+  margin-bottom: 5px;
+}
+
+.blog span {
+  display: block;
+}
