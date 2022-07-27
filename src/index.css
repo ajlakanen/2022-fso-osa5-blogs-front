@@ -45,7 +45,11 @@ h1 {
   margin-bottom: 5px;
 }
 
-.blog span:not(.likes)::before {
+.blog p {
+  display: inline;
+}
+
+.blog .span:not(.likes)::before {
   content: "\A";
   white-space: pre;
 }
