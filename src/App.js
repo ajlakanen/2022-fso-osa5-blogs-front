@@ -11,8 +11,6 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [newFilter, setNewFilter] = useState("");
   const [loginVisible, setLoginVisible] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [notification, setNotification] = useState({
     message: null,
@@ -163,8 +161,9 @@ const App = () => {
     }
   };
 
-  const handleLogin = async (event) => {
+  const handleLogin = async (event, username, password) => {
     event.preventDefault();
+
     if (username.length === 0 || password.length === 0) {
       showNotification({
         message: "insert username and password",
@@ -183,8 +182,8 @@ const App = () => {
 
       blogService.setToken(user.token);
       setUser(user);
-      setUsername("");
-      setPassword("");
+      // setUsername("");
+      // setPassword("");
       setLoginVisible(false);
       showNotification({
         message: `${user.username} logged in`,
@@ -207,10 +206,10 @@ const App = () => {
     if (loginVisible) {
       return (
         <LoginForm
-          username={username}
-          handleUsernameChange={(event) => setUsername(event.target.value)}
-          password={password}
-          handlePasswordChange={(event) => setPassword(event.target.value)}
+          // username={username}
+          // handleUsernameChange={(event) => setUsername(event.target.value)}
+          // password={password}
+          // handlePasswordChange={(event) => setPassword(event.target.value)}
           handleSubmit={handleLogin}
           handleCancel={handleCancel}
         />

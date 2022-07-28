@@ -1,17 +1,24 @@
 import { useState } from "react";
 
 export const LoginForm = ({
-  username,
-  handleUsernameChange,
-  password,
-  handlePasswordChange,
+  //username,
+  //handleUsernameChange,
+  //password,
+  //handlePasswordChange,
   handleSubmit,
   handleCancel,
 }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <div>
       <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={(event) => {
+          handleSubmit(event, username, password);
+        }}
+      >
         <p>
           username:{" "}
           <input
@@ -19,7 +26,7 @@ export const LoginForm = ({
             name="username"
             aria-labelledby="username"
             value={username}
-            onChange={handleUsernameChange}
+            onChange={(event) => setUsername(event.target.value)}
           />
         </p>
         <p>
@@ -30,7 +37,7 @@ export const LoginForm = ({
             aria-labelledby="password"
             autoComplete="on"
             value={password}
-            onChange={handlePasswordChange}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </p>
         <button type="submit">login</button>
