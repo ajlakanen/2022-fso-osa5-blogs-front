@@ -1,13 +1,6 @@
 import { useState } from "react";
 
-export const LoginForm = ({
-  //username,
-  //handleUsernameChange,
-  //password,
-  //handlePasswordChange,
-  handleSubmit,
-  handleCancel,
-}) => {
+export const LoginForm = ({ handleSubmit, handleCancel }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 

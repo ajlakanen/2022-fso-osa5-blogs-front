@@ -205,14 +205,7 @@ const App = () => {
   const loginForm = () => {
     if (loginVisible) {
       return (
-        <LoginForm
-          // username={username}
-          // handleUsernameChange={(event) => setUsername(event.target.value)}
-          // password={password}
-          // handlePasswordChange={(event) => setPassword(event.target.value)}
-          handleSubmit={handleLogin}
-          handleCancel={handleCancel}
-        />
+        <LoginForm handleSubmit={handleLogin} handleCancel={handleCancel} />
       );
     } else {
       return <button onClick={() => setLoginVisible(true)}>login</button>;
