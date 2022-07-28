@@ -33,9 +33,12 @@ const update = async (id, newObject) => {
   return response.data;
 };
 
-const deletePerson = (id) => {
-  const request = axios.delete(`${baseUrl}/${id}`);
-  return request.then((response) => response.data);
+const deleteBlog = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const response = await axios.delete(`${baseUrl}/${id}`, config);
+  return response.data;
 };
 
 export default {
@@ -43,6 +46,6 @@ export default {
   create,
   like,
   update,
-  deletePerson,
+  deleteBlog,
   setToken,
 };

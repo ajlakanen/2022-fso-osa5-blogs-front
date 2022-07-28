@@ -148,19 +148,19 @@ const App = () => {
   };
 
   /* TODO */
-  const handleDeleteClick = ({ person }) => {
-    if (window.confirm(`Delete ${person.name}`)) {
-      blogService
-        .deletePerson(person.id)
-        .then((response) => {
-          setBlogs(blogs.filter((p) => p.id !== person.id));
-        })
-        .then(() => {
-          showNotification({
-            message: "Person deleted",
-            style: "info",
-          });
+  const handleDeleteClick = async ({ blog }) => {
+    if (window.confirm(`Delete ${blog.title}`)) {
+      try {
+        const response = blogService.deleteBlog(blog.id);
+        console.log(response);
+        setBlogs(blogs.filter((p) => p.id !== blog.id));
+        showNotification({
+          message: "Blog deleted",
+          style: "info",
         });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -286,7 +286,7 @@ const App = () => {
                 />{" "}
                 {blog.user ? (
                   blog.user.username === user.username ? (
-                    <button onClick={() => handleDeleteClick({ person: blog })}>
+                    <button onClick={() => handleDeleteClick({ blog })}>
                       delete
                     </button>
                   ) : (
