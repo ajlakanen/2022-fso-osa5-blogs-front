@@ -152,7 +152,6 @@ const App = () => {
     if (window.confirm(`Delete ${blog.title}`)) {
       try {
         const response = blogService.deleteBlog(blog.id);
-        console.log(response);
         setBlogs(blogs.filter((p) => p.id !== blog.id));
         showNotification({
           message: "Blog deleted",

@@ -38,10 +38,6 @@ export const Blog = ({ blog, handleLike, isOwner }) => {
           <>
             {blog.author}
             <br />
-          </>
-        )}
-        {viewAllInfo && (
-          <>
             {blog.url}
             <br />
           </>
