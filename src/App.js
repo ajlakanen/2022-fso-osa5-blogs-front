@@ -113,8 +113,6 @@ const App = () => {
     };
 
     try {
-      // TODO: BUG. Delete-nappi ei ilmesty välittömästi blogin lisäämisen jälkeen.
-      // Vika tod näk tietokannan user-kentän populoinnissa luomisen yhteydessä
       const returnedBlog = await blogService.create(blogObject);
       setBlogs(blogs.concat(returnedBlog));
       showNotification({ message: "New blog added", style: "success" });
