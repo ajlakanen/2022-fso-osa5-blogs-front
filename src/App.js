@@ -72,10 +72,7 @@ const App = () => {
         ...blog,
         likes: blog.likes + 1,
       });
-      // TODO: Tässä on bugi! Author ei päivity blogs taulukkoon oikein
       setBlogs(blogs.map((b) => (b.id !== blog.id ? b : returnedBlog)));
-      console.log(returnedBlog);
-      console.log("user:", user);
       return true;
     } catch (error) {
       showNotification({
@@ -296,8 +293,6 @@ const App = () => {
               ) : (
                 false
               )}
-              owner: {blog.user ? blog.user.username : ""},{" "}
-              {blog.user ? blog.user.id : ""}
             </li>
           ))}
         </ul>

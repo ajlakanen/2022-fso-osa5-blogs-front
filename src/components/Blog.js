@@ -7,6 +7,7 @@ export const Blog = ({ blog, handleLike, isOwner }) => {
   const toggleView = () => {
     setViewAllInfo(!viewAllInfo);
     setLikeStyle("likes");
+    console.log(blog.user);
   };
   return (
     <div>
@@ -15,7 +16,7 @@ export const Blog = ({ blog, handleLike, isOwner }) => {
           toggleView();
         }}
       >
-        {blog.title} {isOwner.toString()}
+        {blog.title} <span className="debug">{isOwner.toString()}</span>
       </p>{" "}
       {!viewAllInfo && (
         <button onClick={() => toggleView()} name="view" aria-labelledby="view">
