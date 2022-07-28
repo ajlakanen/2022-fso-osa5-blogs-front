@@ -7,7 +7,6 @@ export const Blog = ({ blog, handleLike, isOwner }) => {
   const toggleView = () => {
     setViewAllInfo(!viewAllInfo);
     setLikeStyle("likes");
-    console.log(blog.user);
   };
   return (
     <div>

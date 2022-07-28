@@ -147,13 +147,6 @@ const App = () => {
     }, 5000);
   };
 
-  const blogsToShow =
-    newFilter === ""
-      ? blogs
-      : blogs.filter((blog) =>
-          blog.title.toLowerCase().includes(newFilter.toLowerCase())
-        );
-
   /* TODO */
   const handleDeleteClick = ({ person }) => {
     if (window.confirm(`Delete ${person.name}`)) {
@@ -255,6 +248,13 @@ const App = () => {
     );
   };
 
+  const blogsToShow =
+    newFilter === ""
+      ? blogs
+      : blogs.filter((blog) =>
+          blog.title.toLowerCase().includes(newFilter.toLowerCase())
+        );
+
   const blogList = () => {
     return (
       <>
@@ -273,28 +273,30 @@ const App = () => {
           )}
         </p>
         <ul className="bloglist">
-          {blogsToShow.map((blog) => (
-            <li key={blog.id} className="blog">
-              <Blog
-                blog={blog}
-                handleLike={addLike}
-                isOwner={
-                  blog.user ? blog.user.username === user.username : false
-                }
-              />{" "}
-              {blog.user ? (
-                blog.user.username === user.username ? (
-                  <button onClick={() => handleDeleteClick({ person: blog })}>
-                    delete
-                  </button>
+          {blogsToShow
+            .sort((a, b) => b.likes - a.likes)
+            .map((blog) => (
+              <li key={blog.id} className="blog">
+                <Blog
+                  blog={blog}
+                  handleLike={addLike}
+                  isOwner={
+                    blog.user ? blog.user.username === user.username : false
+                  }
+                />{" "}
+                {blog.user ? (
+                  blog.user.username === user.username ? (
+                    <button onClick={() => handleDeleteClick({ person: blog })}>
+                      delete
+                    </button>
+                  ) : (
+                    false
+                  )
                 ) : (
                   false
-                )
-              ) : (
-                false
-              )}
-            </li>
-          ))}
+                )}
+              </li>
+            ))}
         </ul>
       </>
     );
