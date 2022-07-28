@@ -1,5 +1,5 @@
 import axios from "axios";
-const config = require("../utils/config");
+const config = require("../utils/config").default;
 const baseUrl = `${config.API_URL}/api/blogs`;
 // require("dotenv");
 // const baseUrl = "http://localhost:3001/api/persons";

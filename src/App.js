@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { useState, useEffect } from "react";
 import { BlogForm } from "./components/BlogForm";
 import { Blog } from "./components/Blog";
@@ -32,6 +33,7 @@ const App = () => {
     }
   }, []);
 
+  // eslint-disable-next-line no-unused-vars
   const modifyPhoneNumber = (person, newNumber) => {
     const changedPerson = { ...person, number: newNumber };
     blogService
@@ -149,7 +151,8 @@ const App = () => {
   const handleDeleteClick = async ({ blog }) => {
     if (window.confirm(`Delete ${blog.title}`)) {
       try {
-        const response = blogService.deleteBlog(blog.id);
+        //const response =
+        blogService.deleteBlog(blog.id);
         setBlogs(blogs.filter((p) => p.id !== blog.id));
         showNotification({
           message: "Blog deleted",

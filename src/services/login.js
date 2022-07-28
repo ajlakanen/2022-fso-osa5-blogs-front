@@ -1,5 +1,5 @@
 import axios from "axios";
-const config = require("../utils/config");
+const config = require("../utils/config").default;
 //const baseUrl = "http://localhost:3003/api/login";
 const baseUrl = `${config.API_URL}/api/login`;
 
