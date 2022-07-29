@@ -9,13 +9,14 @@ export const Blog = ({ blog, handleLike, isOwner }) => {
     setLikeStyle("likes");
   };
   return (
-    <div>
+    <div className="blog">
       <p
         onClick={() => {
           toggleView();
         }}
       >
-        {blog.title} <span className="debug">{isOwner.toString()}</span>
+        {blog.author}: <strong>{blog.title}</strong>{" "}
+        <span className="debug">{isOwner.toString()}</span>
       </p>{" "}
       {!viewAllInfo && (
         <button onClick={() => toggleView()} name="view" aria-labelledby="view">
@@ -36,8 +37,6 @@ export const Blog = ({ blog, handleLike, isOwner }) => {
       <div>
         {viewAllInfo && (
           <>
-            {blog.author}
-            <br />
             {blog.url}
             <br />
           </>

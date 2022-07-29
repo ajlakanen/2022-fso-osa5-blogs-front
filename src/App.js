@@ -14,7 +14,7 @@ const App = () => {
   const [loginVisible, setLoginVisible] = useState(false);
   const [user, setUser] = useState(null);
   const [notification, setNotification] = useState({
-    message: null,
+    message: "",
     style: "",
   });
 
@@ -143,7 +143,7 @@ const App = () => {
       style,
     });
     setTimeout(() => {
-      setNotification({ message: null });
+      setNotification({ message: "" });
     }, 5000);
   };
 
@@ -270,7 +270,7 @@ const App = () => {
           {blogsToShow
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
-              <li key={blog.id} className="blog">
+              <li key={blog.id}>
                 <Blog
                   blog={blog}
                   handleLike={addLike}
