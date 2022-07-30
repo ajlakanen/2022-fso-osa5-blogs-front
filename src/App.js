@@ -148,11 +148,12 @@ const App = () => {
   };
 
   /* TODO */
-  const handleDeleteClick = async ({ blog }) => {
+  const handleDeleteClick = async (blog) => {
     if (window.confirm(`Delete ${blog.title}`)) {
       try {
         //const response =
         blogService.deleteBlog(blog.id);
+        console.log("1");
         setBlogs(blogs.filter((p) => p.id !== blog.id));
         showNotification({
           message: "Blog deleted",
@@ -274,21 +275,11 @@ const App = () => {
                 <Blog
                   blog={blog}
                   handleLike={addLike}
+                  handleDelete={handleDeleteClick}
                   isOwner={
                     blog.user ? blog.user.username === user.username : false
                   }
                 />{" "}
-                {blog.user ? (
-                  blog.user.username === user.username ? (
-                    <button onClick={() => handleDeleteClick({ blog })}>
-                      delete
-                    </button>
-                  ) : (
-                    false
-                  )
-                ) : (
-                  false
-                )}
               </li>
             ))}
         </ul>
