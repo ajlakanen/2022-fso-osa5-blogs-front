@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const Blog = ({ blog, handleLike, isOwner }) => {
+export const Blog = ({ blog, handleLike, handleDelete, isOwner }) => {
   const [viewAllInfo, setViewAllInfo] = useState(false);
   const [likeStyle, setLikeStyle] = useState("likes");
 
@@ -62,6 +62,18 @@ export const Blog = ({ blog, handleLike, isOwner }) => {
               like
             </button>
           </span>
+        )}
+        {isOwner ? (
+          <button
+            onClick={() => {
+              console.log(blog);
+              handleDelete(blog);
+            }}
+          >
+            delete
+          </button>
+        ) : (
+          <></>
         )}
       </div>
     </div>
