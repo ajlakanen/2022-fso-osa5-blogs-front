@@ -83,6 +83,16 @@ const App = () => {
     }
   };
 
+  function tokenExpiredLogout() {
+    showNotification({
+      message: "Login expired, please wait, logging out...",
+      style: "error",
+    });
+    setTimeout(() => {
+      setUser(null);
+    }, 5000);
+  }
+
   const addBlog = async ({ newTitle, newAuthor, newUrl }) => {
     if (
       newTitle.length === 0 ||
@@ -125,13 +135,7 @@ const App = () => {
         });
       }
       if (error.response.data.error.includes("token expired")) {
-        showNotification({
-          message: "Login expired, please wait, logging out...",
-          style: "error",
-        });
-        setTimeout(() => {
-          setUser(null);
-        }, 5000);
+        tokenExpiredLogout();
       }
       return false;
     }
@@ -161,6 +165,9 @@ const App = () => {
         });
       } catch (error) {
         console.log(error);
+        if (error.response.data.error.includes("token expired")) {
+          tokenExpiredLogout();
+        }
       }
     }
   };
