@@ -304,6 +304,9 @@ const App = () => {
         {user !== null && blogForm()}
         {user !== null && blogList()}
       </div>
+      <footer>
+        <p>Bloglist app, Antti-Jussi Lakanen</p>
+      </footer>
     </div>
   );
 };
