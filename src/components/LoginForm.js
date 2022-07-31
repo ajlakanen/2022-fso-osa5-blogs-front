@@ -16,6 +16,7 @@ export const LoginForm = ({ handleSubmit, handleCancel }) => {
           username:{" "}
           <input
             type="text"
+            id="username"
             name="username"
             aria-labelledby="username"
             value={username}
@@ -26,6 +27,7 @@ export const LoginForm = ({ handleSubmit, handleCancel }) => {
           password{" "}
           <input
             type="password"
+            id="password"
             name="password"
             aria-labelledby="password"
             autoComplete="on"
