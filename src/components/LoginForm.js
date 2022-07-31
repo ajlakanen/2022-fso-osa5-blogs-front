@@ -35,7 +35,9 @@ export const LoginForm = ({ handleSubmit, handleCancel }) => {
             onChange={(event) => setPassword(event.target.value)}
           />
         </p>
-        <button type="submit">login</button>
+        <button id="login-button" type="submit">
+          login
+        </button>
         <button onClick={handleCancel}>cancel</button>
       </form>
     </div>
