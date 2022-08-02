@@ -45,10 +45,8 @@ describe("Blog ", function () {
 
   describe("when logged in", function () {
     beforeEach(function () {
-      cy.contains("login").click();
-      cy.get("#username").type("aajii");
-      cy.get("#password").type("password");
-      cy.get("#login-button").click();
+      // kirjautuminen siirretty tiedostoon support/commands.js
+      cy.login({ username: "aajii", password: "password" });
     });
 
     it("a new blog can be created", function () {
