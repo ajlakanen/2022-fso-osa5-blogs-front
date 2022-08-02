@@ -61,7 +61,6 @@ describe("Blog ", function () {
 
     describe("and a blog exists", function () {
       beforeEach(function () {
-        console.log("asdfasdf");
         cy.createBlog({
           author: "cypressi",
           title: "first cypress blog",
@@ -75,6 +74,9 @@ describe("Blog ", function () {
       });
       it("first cypress blog", function () {
         cy.contains("first cypress blog");
+      });
+      it("first cypress blog", function () {
+        cy.contains("second cypress blog");
       });
     });
   });
