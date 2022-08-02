@@ -48,23 +48,34 @@ describe("Blog ", function () {
       // kirjautuminen siirretty tiedostoon support/commands.js
       cy.login({ username: "aajii", password: "password" });
     });
-
-    it("a new blog can be created", function () {
-      cy.contains("add new blog").click();
-      cy.get("#title").type("a blog created by cypress");
-      cy.get("#author").type("Cypress Ltd");
-      cy.get("#url").type("www.cypress.com");
-      cy.contains("save").click();
-      cy.contains("a blog created by cypress");
+    describe("new blog", function () {
+      it("a new blog can be created", function () {
+        cy.contains("add new blog").click();
+        cy.get("#title").type("a blog created by cypress");
+        cy.get("#author").type("Cypress Ltd");
+        cy.get("#url").type("www.cypress.com");
+        cy.contains("save").click();
+        cy.contains("a blog created by cypress");
+      });
     });
 
-    it("second blog can be created", function () {
-      cy.contains("add new blog").click();
-      cy.get("#title").type("yet another blog created by cypress");
-      cy.get("#author").type("Cypress Ltd numer 2");
-      cy.get("#url").type("www.cypress.com");
-      cy.contains("save").click();
-      cy.contains("yet another blog created by cypress");
+    describe("and a blog exists", function () {
+      beforeEach(function () {
+        console.log("asdfasdf");
+        cy.createBlog({
+          author: "cypressi",
+          title: "first cypress blog",
+          url: "www.cybresz.com",
+        });
+        cy.createBlog({
+          author: "cypressi",
+          title: "second cypress blog",
+          url: "www.cybresz.com",
+        });
+      });
+      it("first cypress blog", function () {
+        cy.contains("first cypress blog");
+      });
     });
   });
 });
