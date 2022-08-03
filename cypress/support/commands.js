@@ -48,3 +48,12 @@ Cypress.Commands.add("createBlog", ({ title, author, url }) => {
 
   cy.visit("http://localhost:3000");
 });
+
+Cypress.Commands.add("view", ({ title }) => {
+  cy.contains(title).parent().parent().find("button").contains("view").click();
+});
+
+Cypress.Commands.add("like", ({ title }) => {
+  cy.contains(title).parent().parent().find("button").contains("like").click();
+  cy.wait(100);
+});

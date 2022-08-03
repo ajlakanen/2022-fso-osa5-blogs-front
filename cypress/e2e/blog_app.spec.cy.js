@@ -1,3 +1,5 @@
+import { func } from "prop-types";
+
 describe("Blog ", function () {
   beforeEach(function () {
     cy.request("POST", "http://localhost:3003/api/testing/reset");
@@ -15,7 +17,11 @@ describe("Blog ", function () {
     cy.contains("Bloglist app, Antti-Jussi Lakanen");
   });
 
-  it("login fails with wrong password", function () {
+  it("login form can be opened", function () {
+    cy.contains("login").click();
+  });
+
+  it("login fails with wrong password and error shows in red color", function () {
     cy.contains("login").click();
     cy.get("#username").type("aajii");
     cy.get("#password").type("wrong");
@@ -29,10 +35,6 @@ describe("Blog ", function () {
       "not.contain",
       "Antero-Jaakko Liukanen (aajii) logged in."
     );
-  });
-
-  it("login form can be opened", function () {
-    cy.contains("login").click();
   });
 
   it("user can login", function () {
@@ -64,19 +66,62 @@ describe("Blog ", function () {
         cy.createBlog({
           author: "cypressi",
           title: "first cypress blog",
-          url: "www.cybresz.com",
+          url: "www.cybresz1.com",
         });
         cy.createBlog({
-          author: "cypressi",
+          author: "cypressi2",
           title: "second cypress blog",
-          url: "www.cybresz.com",
+          url: "www.cybresz2.com",
+        });
+        cy.createBlog({
+          author: "cypressi3",
+          title: "third cypress blog",
+          url: "www.cybresz3.com",
         });
       });
-      it("first cypress blog", function () {
-        cy.contains("first cypress blog");
+      it("like first cypress blog", function () {
+        cy.view({ title: "first cypress blog" });
+        cy.like({ title: "first cypress blog" });
+
+        cy.contains("first cypress blog")
+          .parent()
+          .parent()
+          .contains("likes: 1");
       });
-      it("first cypress blog", function () {
-        cy.contains("second cypress blog");
+
+      it("like second cypress blog twice", function () {
+        cy.view({ title: "second cypress blog" });
+        cy.like({ title: "second cypress blog" });
+        cy.like({ title: "second cypress blog" });
+
+        cy.contains("second cypress blog")
+          .parent()
+          .parent()
+          .contains("likes: 2");
+      });
+
+      it("blog can be deleted", function () {
+        cy.contains("first cypress blog")
+          .parent()
+          .parent()
+          .find("button")
+          .contains("delete")
+          .click();
+        cy.get(".bloglist").should("not.contain", "first cypress blog");
+      });
+
+      it("blogs are ordered based on likes", function () {
+        cy.view({ title: "second cypress blog" });
+        for (let index = 0; index < 5; index++) {
+          cy.like({ title: "second cypress blog" });
+        }
+        cy.view({ title: "third cypress blog" });
+        for (let index = 0; index < 3; index++) {
+          cy.like({ title: "third cypress blog" });
+        }
+        cy.get(".blog").eq(0).should("contain", "second cypress blog");
+        cy.get(".blog").eq(1).should("contain", "third cypress blog");
+        cy.get(".blog").eq(2).should("contain", "first cypress blog");
       });
     });
   });
